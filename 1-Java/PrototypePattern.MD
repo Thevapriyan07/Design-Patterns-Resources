@@ -1,44 +1,79 @@
 # Prototype Pattern in Java
 
-## Definition:
-
-The Prototype Pattern is a creational design pattern that allows you to create new objects by duplicating an existing object, known as the prototype. It involves creating new objects with the same structure as the prototype, typically by using a clone or copy operation.
+## Requirement Definition:
+You want to understand and potentially contribute to a GitHub repository that uses the Prototype Pattern in Java.
 
 ## Explanation in Simple Terms:
+The Prototype Pattern is a creational design pattern in Java that is used for creating new objects by copying an existing object, known as the prototype. This pattern allows you to create new objects with the same properties as the original object, saving the effort of creating them from scratch.
 
-Think of a prototype as a blueprint or template for creating new objects. If you have a prototype of an object, you can make as many copies of it as you want. It's like making photocopies of a document – the copies have the same content and format as the original.
+Think of it like a photocopy machine. You have an original document (the prototype), and you can create multiple copies of it without rewriting the entire content. In the context of Java, the Prototype Pattern helps you avoid the overhead of creating complex objects repeatedly by simply cloning an existing object.
 
 ## Code-Related Explanation:
 
-In Python, you can implement the Prototype Pattern using different approaches, but a simple way is to use the copy module. Here's a basic example:
+Let's look at an example in Java to understand the Prototype Pattern
 
 ```java
-import copy
+import java.util.HashMap;
+import java.util.Map;
 
-class Prototype:
-    def __init__(self):
-        self.data = []
+// The prototype interface that all concrete prototypes will implement
+interface Prototype {
+    Prototype clone();
+}
 
-    def clone(self):
-        # Use copy.deepcopy to create a deep copy of the object
-        return copy.deepcopy(self)
+// Concrete prototype class
+class ConcretePrototype implements Prototype {
+    private int data;
 
-# Create a prototype object
-prototype = Prototype()
-prototype.data.append(1)
+    public ConcretePrototype(int data) {
+        this.data = data;
+    }
 
-# Clone the prototype to create a new object
-new_object = prototype.clone()
+    @Override
+    public Prototype clone() {
+        // Create a new instance by copying the current object
+        return new ConcretePrototype(this.data);
+    }
 
-# Both the prototype and the new object have the same data
-print(prototype.data)  # Output: [1]
-print(new_object.data)  # Output: [1]
+    public int getData() {
+        return data;
+    }
+}
 
-# Modify the data in the new object
-new_object.data.append(2)
+// Prototype manager
+class PrototypeManager {
+    private Map<String, Prototype> prototypes = new HashMap<>();
 
-# The prototype's data remains unchanged
-print(prototype.data)  # Output: [1]
-print(new_object.data)  # Output: [1, 2]
+    public void addPrototype(String key, Prototype prototype) {
+        prototypes.put(key, prototype);
+    }
+
+    public Prototype getPrototype(String key) {
+        Prototype prototype = prototypes.get(key);
+        if (prototype != null) {
+            return prototype.clone();
+        }
+        return null;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        // Create a prototype manager
+        PrototypeManager manager = new PrototypeManager();
+
+        // Create a prototype object and add it to the manager
+        ConcretePrototype prototype = new ConcretePrototype(10);
+        manager.addPrototype("PrototypeA", prototype);
+
+        // Create a new object by cloning the prototype
+        Prototype clonedObject = manager.getPrototype("PrototypeA");
+
+        if (clonedObject != null) {
+            System.out.println("Original Data: " + prototype.getData());
+            System.out.println("Cloned Data: " + ((ConcretePrototype)clonedObject).getData());
+        }
+    }
+}
 
 ```
