@@ -38,3 +38,6 @@ car1.start(); // Output: Starting the Toyota Camry
 car2.start(); // Output: Starting the Honda Civic
 
 ```
+In this example, carPrototype serves as the prototype object. You create new car objects car1 and car2 by using Object.create() to clone carPrototype. Then, you customize them by setting their make and model properties.
+
+The start method is shared through the prototype, so both car1 and car2 can access and use it.
