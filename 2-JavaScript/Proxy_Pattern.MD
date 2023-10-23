@@ -8,6 +8,8 @@ Think of a proxy as a middleman or a representative. Imagine you have a personal
 ## Code Related Explanation
 ### Implementation
 To implement the Proxy Pattern in JavaScript, you typically have a proxy class that has the same interface as the real subject. The proxy controls access to the real subject and can intercept requests, add behavior, or restrict access.
+
+```JavaScript
 class Proxy {
   constructor(realSubject) {
     this.realSubject = realSubject;
@@ -31,3 +33,4 @@ class Proxy {
     console.log('Proxy: Logging the time of request.');
   }
 }
+```
